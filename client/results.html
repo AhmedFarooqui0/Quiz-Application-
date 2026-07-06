@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results — DevQuiz</title>
+  <meta name="description" content="See your quiz results and review your answers." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/quiz.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+</head>
+<body>
+  <div class="bg-gradient-mesh"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">💻</div>
+        Dev<span>Quiz</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="results-page">
+    <div class="results-container">
+
+      <!-- No results fallback -->
+      <div id="no-results" style="display:none;" class="text-center" style="padding:80px 20px;">
+        <div style="font-size:3rem;margin-bottom:16px;">🤔</div>
+        <h2 style="margin-bottom:12px;">No results found</h2>
+        <p class="text-secondary" style="margin-bottom:24px;">Complete a quiz first to see your results.</p>
+        <a href="index.html" class="btn btn-primary">← Start a Quiz</a>
+      </div>
+
+      <!-- Results content -->
+      <div id="results-content" style="display:none;">
+
+        <!-- Category badge -->
+        <div style="text-align:center;margin-bottom:24px;" class="animate-fade-up">
+          <span style="font-size:1rem;color:var(--text-secondary);" id="result-category-name">Category</span>
+        </div>
+
+        <!-- Score Ring -->
+        <div class="score-ring-wrapper animate-fade-up delay-1">
+          <div class="score-ring-container">
+            <svg class="score-ring-svg" viewBox="0 0 180 180">
+              <circle class="score-ring-bg" cx="90" cy="90" r="75" />
+              <circle class="score-ring-progress" id="score-ring" cx="90" cy="90" r="75" />
+            </svg>
+            <div class="score-ring-label">
+              <div class="score-percentage" id="score-pct">0%</div>
+              <div class="score-label-text">Score</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pass/Fail Banner -->
+        <div class="result-banner animate-fade-up delay-2" id="result-banner">
+          <div class="result-banner-icon" id="banner-icon">🎉</div>
+          <div class="result-banner-title" id="banner-title">Excellent!</div>
+          <div class="result-banner-sub" id="banner-sub">You passed with flying colors.</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="result-stats animate-fade-up delay-3">
+          <div class="result-stat-card">
+            <div class="result-stat-value text-green" id="stat-correct">0</div>
+            <div class="result-stat-label">Correct</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-value text-red" id="stat-wrong">0</div>
+            <div class="result-stat-label">Wrong</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-value text-blue" id="stat-total">0</div>
+            <div class="result-stat-label">Total</div>
+          </div>
+        </div>
+
+        <!-- Submit Score Form -->
+        <div class="submit-score-form animate-fade-up delay-4" id="submit-form">
+          <div class="form-title">🏆 Submit your score to the leaderboard</div>
+          <div class="form-group">
+            <label class="form-label" for="player-name-input">Your Name</label>
+            <input
+              type="text"
+              id="player-name-input"
+              class="form-input"
+              placeholder="Enter your name..."
+              maxlength="30"
+              value=""
+            />
+          </div>
+          <button class="btn btn-primary w-full" id="submit-score-btn" onclick="submitScore()">
+            Submit to Leaderboard
+          </button>
+          <div id="submit-msg" style="margin-top:12px;font-size:0.85rem;text-align:center;display:none;"></div>
+        </div>
+
+        <!-- Review -->
+        <div class="review-section animate-fade-up delay-5">
+          <div class="review-section-title">📋 Question Review</div>
+          <div id="review-list"></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="result-actions animate-fade-up">
+          <a href="index.html" class="btn btn-secondary">← Categories</a>
+          <button class="btn btn-primary" id="retry-btn" onclick="retryQuiz()">🔄 Retry</button>
+          <a href="leaderboard.html" class="btn btn-secondary">🏆 Leaderboard</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/results.js"></script>
+</body>
+</html>
