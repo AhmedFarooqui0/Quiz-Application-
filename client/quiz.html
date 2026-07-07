@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz — DevQuiz</title>
+  <meta name="description" content="Take the quiz and test your software engineering knowledge." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/quiz.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+</head>
+<body>
+  <div class="bg-gradient-mesh"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">💻</div>
+        Dev<span>Quiz</span>
+      </a>
+      <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html" id="nav-home">Home</a></li>
+        <li><a href="leaderboard.html" id="nav-leaderboard">Leaderboard</a></li>
+      </ul>
+      <div id="nav-auth-slot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="quiz-page">
+    <div class="quiz-container">
+
+      <!-- LOADING STATE -->
+      <div id="quiz-loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading questions...</p>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div id="quiz-error" class="error-state" style="display:none;">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title">Could not load quiz</div>
+        <div class="error-message" id="quiz-error-msg">Check your connection and try again.</div>
+        <a href="index.html" class="btn btn-primary">← Back to Categories</a>
+      </div>
+
+      <!-- QUIZ CONTENT -->
+      <div id="quiz-content" style="display:none;">
+
+        <!-- Header -->
+        <div class="quiz-header">
+          <div class="quiz-category-info">
+            <div class="quiz-cat-icon" id="cat-icon">💻</div>
+            <div>
+              <div class="quiz-cat-name" id="cat-name">Category</div>
+              <div class="quiz-cat-subtitle" id="cat-subtitle">Loading...</div>
+            </div>
+          </div>
+          <div class="score-chip">
+            <span>⭐</span>
+            <span id="live-score">0</span> / <span id="live-total">0</span>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section">
+          <div class="progress-meta">
+            <span class="progress-label">Progress</span>
+            <span class="progress-count" id="progress-text">Question 1 of 10</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-wrapper">
+          <div class="timer-ring-container">
+            <svg class="timer-ring" viewBox="0 0 72 72">
+              <circle class="timer-ring-bg" cx="36" cy="36" r="30" />
+              <circle class="timer-ring-progress" id="timer-ring" cx="36" cy="36" r="30" />
+            </svg>
+            <div class="timer-number" id="timer-number">30</div>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="question-card" id="question-card">
+          <div class="question-number" id="question-number">Question 1</div>
+          <div class="question-text" id="question-text">Loading question...</div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-grid" id="options-grid"></div>
+
+        <!-- Explanation -->
+        <div class="explanation-panel" id="explanation-panel">
+          <div class="explanation-title">💡 Explanation</div>
+          <div class="explanation-text" id="explanation-text"></div>
+          <div class="explanation-reference" id="explanation-ref"></div>
+        </div>
+
+        <!-- Next Button -->
+        <div class="quiz-actions">
+          <button class="btn btn-primary" id="next-btn" style="display:none;" onclick="nextQuestion()">
+            Next Question →
+          </button>
+          <button class="btn btn-primary btn-lg" id="finish-btn" style="display:none;" onclick="finishQuiz()">
+            🏁 See Results
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+</html>

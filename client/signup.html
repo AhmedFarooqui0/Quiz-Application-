@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — DevQuiz</title>
+  <meta name="description" content="Create a DevQuiz account to start taking quizzes." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/quiz.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+</head>
+<body>
+  <div class="bg-gradient-mesh"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">💻</div>
+        Dev<span>Quiz</span>
+      </a>
+      <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+      </ul>
+      <div id="nav-auth-slot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-card animate-fade-up">
+      <div class="auth-header">
+        <div class="auth-icon">📝</div>
+        <div class="auth-title">Create your account</div>
+        <div class="auth-subtitle">Sign up to start taking quizzes and track your scores.</div>
+      </div>
+
+      <div class="auth-alert" id="auth-alert"></div>
+
+      <form id="signup-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name-input">Full Name</label>
+          <input type="text" id="name-input" class="form-input" placeholder="Ada Lovelace" autocomplete="name" />
+          <div class="auth-field-error" id="name-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email-input">Email</label>
+          <input type="email" id="email-input" class="form-input" placeholder="you@example.com" autocomplete="email" />
+          <div class="auth-field-error" id="email-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password-input">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="password-input" class="form-input" placeholder="At least 8 characters" autocomplete="new-password" />
+            <button type="button" class="password-toggle" id="toggle-password">Show</button>
+          </div>
+          <div class="password-strength" id="password-strength">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <div class="password-hint">Use 8+ characters with an uppercase letter, a lowercase letter, and a number.</div>
+          <div class="auth-field-error" id="password-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm-password-input">Confirm Password</label>
+          <input type="password" id="confirm-password-input" class="form-input" placeholder="Re-enter your password" autocomplete="new-password" />
+          <div class="auth-field-error" id="confirm-password-error"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-submit-btn" id="signup-btn">Create Account</button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a href="login.html">Log in</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

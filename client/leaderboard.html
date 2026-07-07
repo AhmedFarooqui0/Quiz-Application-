@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard — DevQuiz</title>
+  <meta name="description" content="Top scores from all quiz categories. See who is the best software engineering student." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/quiz.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>" />
+</head>
+<body>
+  <div class="bg-gradient-mesh"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">💻</div>
+        Dev<span>Quiz</span>
+      </a>
+      <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+      </ul>
+      <div id="nav-auth-slot"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" style="padding: 50px 24px 30px;">
+    <div class="hero-badge">🏆 Hall of Fame</div>
+    <h1 style="font-size:2.4rem;">Top <span class="highlight">Performers</span></h1>
+    <p>The best scores across all software engineering quiz categories.</p>
+  </section>
+
+  <div class="leaderboard-page">
+    <div class="leaderboard-container">
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs" id="filter-tabs">
+        <button class="filter-tab active" data-category="" onclick="filterLeaderboard('')">🌍 All Categories</button>
+        <!-- Dynamically filled -->
+      </div>
+
+      <!-- Loading -->
+      <div id="lb-loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading scores...</p>
+      </div>
+
+      <!-- Error -->
+      <div id="lb-error" class="error-state" style="display:none;">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title">Could not load leaderboard</div>
+        <div class="error-message">Make sure the backend server is running.</div>
+        <button class="btn btn-primary" onclick="loadLeaderboard('')">↺ Retry</button>
+      </div>
+
+      <!-- Leaderboard List -->
+      <div id="lb-list" class="leaderboard-list" style="display:none;"></div>
+
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/leaderboard.js"></script>
+</body>
+</html>

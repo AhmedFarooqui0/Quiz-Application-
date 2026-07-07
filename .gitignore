@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Environment variables (contains secrets — never commit this)
+.env
+server/.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+*.log
+
+# Editor
+.antigravity/
+.idea/
