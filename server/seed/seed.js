@@ -1,7 +1,11 @@
 const path = require('path');
 
 require('dotenv').config({
+<<<<<<< HEAD
   path: path.resolve(__dirname, '../.env')
+=======
+  path: path.resolve(__dirname, '../../.env')
+>>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
 });
 const mongoose = require('mongoose');
 const Category = require('../models/Category');
@@ -204,7 +208,11 @@ const questionBank = {
 
 async function seed() {
   try {
+<<<<<<< HEAD
     await mongoose.connect(process.env.MONGO_URI);
+=======
+    await mongoose.connect("mongodb://localhost:27017/softwarequiz");
+>>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
     console.log('✅ Connected to MongoDB');
 
     // Clear existing data

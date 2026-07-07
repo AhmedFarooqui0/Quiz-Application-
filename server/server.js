@@ -14,7 +14,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client')));
 
 // API Routes
+<<<<<<< HEAD
 app.use('/api/auth', require('./routes/auth'));
+=======
+>>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/questions', require('./routes/questions'));
 app.use('/api/scores', require('./routes/scores'));
@@ -37,8 +40,11 @@ mongoose.connect(MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(err));
 
+<<<<<<< HEAD
 if (require.main === module) {
   app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 }
 
+=======
+>>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
 module.exports = app;
