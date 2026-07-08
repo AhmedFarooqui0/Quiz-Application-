@@ -1,5 +1,5 @@
 // api.js — Centralized API client
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = "/api";
 
 // Adds the Authorization header when a token exists, without api.js
 // needing to know about the Auth object's internal storage details.
