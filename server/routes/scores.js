@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Score = require('../models/Score');
 const Category = require('../models/Category');
-<<<<<<< HEAD
 const { requireAuth } = require('../middleware/auth');
 
 // POST /api/scores — Submit a score (must be logged in)
@@ -12,15 +11,6 @@ router.post('/', requireAuth, async (req, res) => {
     const { categoryId, score, total, timeTaken } = req.body;
 
     if (!categoryId || score === undefined || !total) {
-=======
-
-// POST /api/scores — Submit a score
-router.post('/', async (req, res) => {
-  try {
-    const { playerName, categoryId, score, total, timeTaken } = req.body;
-
-    if (!playerName || !categoryId || score === undefined || !total) {
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
       return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
@@ -33,12 +23,8 @@ router.post('/', async (req, res) => {
     const passed = percentage >= 70;
 
     const newScore = await Score.create({
-<<<<<<< HEAD
       playerName: req.user.name,
       userId: req.user.id,
-=======
-      playerName: playerName.trim(),
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
       categoryId,
       categoryName: category.name,
       score,

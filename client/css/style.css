@@ -190,15 +190,12 @@ img { max-width: 100%; display: block; }
   color: var(--text-primary);
 }
 
-<<<<<<< HEAD
 .nav-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-=======
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
 /* =============================================
    HERO SECTION
    ============================================= */

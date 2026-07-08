@@ -14,24 +14,17 @@ function showToast(message, type = 'info') {
 let resultsData = null;
 
 function initResults() {
-<<<<<<< HEAD
   if (!Auth.requireLogin('quiz')) return;
 
-=======
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   const raw = sessionStorage.getItem('quiz_results');
   if (!raw) {
     document.getElementById('no-results').style.display = 'block';
     return;
   }
 
-<<<<<<< HEAD
   const user = Auth.getUser();
   const nameEl = document.getElementById('submit-as-name');
   if (nameEl && user) nameEl.textContent = user.name;
-
-=======
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   resultsData = JSON.parse(raw);
   const { score, total, categoryName, categoryIcon, userAnswers } = resultsData;
   const percentage = Math.round((score / total) * 100);
@@ -121,28 +114,13 @@ function toggleReview(i) {
 }
 
 async function submitScore() {
-<<<<<<< HEAD
-=======
-  const nameInput = document.getElementById('player-name-input');
-  const name = nameInput.value.trim();
-  if (!name) {
-    showToast('Please enter your name first!', 'error');
-    nameInput.focus();
-    return;
-  }
-
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   const btn = document.getElementById('submit-score-btn');
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
   try {
     const { score, total, categoryId } = resultsData;
-<<<<<<< HEAD
     await api.submitScore({ categoryId, score, total });
-=======
-    await api.submitScore({ playerName: name, categoryId, score, total });
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
 
     document.getElementById('submit-form').innerHTML = `
       <div style="text-align:center;padding:20px;">
@@ -156,15 +134,11 @@ async function submitScore() {
   } catch (err) {
     btn.disabled = false;
     btn.textContent = 'Submit to Leaderboard';
-<<<<<<< HEAD
-
     if (err.status === 401) {
       showToast('Your session expired. Please log in again.', 'error');
       Auth.requireLogin('quiz');
       return;
     }
-=======
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
     showToast(err.message || 'Failed to submit score', 'error');
   }
 }

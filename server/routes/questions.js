@@ -2,17 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Question = require('../models/Question');
 const Category = require('../models/Category');
-<<<<<<< HEAD
 const { requireAuth } = require('../middleware/auth');
 
 // GET /api/questions/:categorySlug?difficulty=medium&limit=10
 // Login is required to take a quiz.
 router.get('/:categorySlug', requireAuth, async (req, res) => {
-=======
-
-// GET /api/questions/:categorySlug?difficulty=medium&limit=10
-router.get('/:categorySlug', async (req, res) => {
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   try {
     const { difficulty, limit = 10 } = req.query;
     const { categorySlug } = req.params;

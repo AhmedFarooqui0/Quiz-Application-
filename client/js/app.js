@@ -105,7 +105,6 @@ document.getElementById('difficulty-filter').addEventListener('change', function
   }
 });
 
-<<<<<<< HEAD
 // Start quiz — navigate to quiz.html (login required)
 function startQuiz(slug, id) {
   if (!Auth.isLoggedIn()) {
@@ -113,10 +112,6 @@ function startQuiz(slug, id) {
     window.location.href = `login.html?next=index.html&reason=quiz`;
     return;
   }
-=======
-// Start quiz — navigate to quiz.html
-function startQuiz(slug, id) {
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   sessionStorage.setItem('quiz_slug', slug);
   sessionStorage.setItem('quiz_cat_id', id);
   window.location.href = 'quiz.html';

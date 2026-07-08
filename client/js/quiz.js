@@ -218,12 +218,9 @@ function finishQuiz() {
 
 // Init quiz
 async function initQuiz() {
-<<<<<<< HEAD
   // Login is required to take a quiz.
   if (!Auth.requireLogin('quiz')) return;
 
-=======
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   const slug = sessionStorage.getItem('quiz_slug');
   const catId = sessionStorage.getItem('quiz_cat_id');
 
@@ -257,13 +254,10 @@ async function initQuiz() {
 
     renderQuestion();
   } catch (err) {
-<<<<<<< HEAD
     if (err.status === 401) {
       Auth.requireLogin('quiz');
       return;
     }
-=======
->>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
     loading.style.display = 'none';
     errorEl.style.display = 'block';
     document.getElementById('quiz-error-msg').textContent = err.message;
