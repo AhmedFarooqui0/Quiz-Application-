@@ -9,7 +9,7 @@ const { requireAuth } = require('../middleware/auth');
 const { sendVerificationEmail } = require('../utils/sendEmail');
 const { isValidEmail, validatePassword, validateName } = require('../utils/validators');
 
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000';
+const CLIENT_URL = process.env.CLIENT_URL || 'https://quiz-application-topaz-seven.vercel.app/';
 const VERIFY_TOKEN_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function signToken(user) {
