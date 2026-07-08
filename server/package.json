@@ -9,6 +9,7 @@
     "seed": "node seed/seed.js"
   },
   "dependencies": {
+<<<<<<< HEAD
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -16,6 +17,12 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.4.1",
     "nodemailer": "^6.10.1"
+=======
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1"
+>>>>>>> 1c2468e0eb576ccf74ae27231ade5d137b954910
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
