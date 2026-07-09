@@ -156,11 +156,11 @@ document.getElementById('signup-form').addEventListener('submit', async function
 
     const result = await api.signup({ name, email, password });
 
-    showAlert(result.message || 'Account created! Check your email to verify.', 'success');
-    showToast('Account created — check your inbox!', 'success');
-    document.getElementById('signup-form').reset();
-    renderPasswordStrength('');
+    Auth.setSession(result.token, result.user);
+    showToast(`Welcome, ${result.user.name}!`, 'success');
     btn.textContent = 'Account Created ✓';
+
+    window.location.href = 'index.html';
   } catch (err) {
     showAlert(err.message || 'Something went wrong. Please try again.', 'error');
     btn.disabled = false;

@@ -42,35 +42,22 @@ router.post('/signup', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const verificationToken = crypto.randomBytes(32).toString('hex');
 
     const user = await User.create({
       name: name.trim(),
       email: normalizedEmail,
       password: hashedPassword,
-      isVerified: false,
-      verificationToken,
-      verificationTokenExpires: Date.now() + VERIFY_TOKEN_TTL_MS,
+      isVerified: true,
+      // TEMP: email verification disabled for now
     });
 
-    const verifyUrl = `${CLIENT_URL}/api/auth/verify/${verificationToken}`;
-
-    try {
-      await sendVerificationEmail(user.email, user.name, verifyUrl);
-    } catch (emailErr) {
-      console.error('Failed to send verification email:', emailErr.message);
-      // The account was created; let the user know email delivery failed
-      // rather than silently pretending it worked.
-      return res.status(201).json({
-        success: true,
-        message:
-          'Account created, but the verification email could not be sent. Please try "Resend verification email" from the login page.',
-      });
-    }
+    const token = signToken(user);
 
     res.status(201).json({
       success: true,
-      message: `Account created! We sent a verification link to ${user.email}. Please check your inbox (and spam folder).`,
+      message: 'Account created!.',
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
     console.error(err);
@@ -155,15 +142,6 @@ router.post('/login', async (req, res) => {
     if (!match) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
-
-    if (!user.isVerified) {
-      return res.status(403).json({
-        success: false,
-        code: 'NOT_VERIFIED',
-        message: 'Please verify your email before logging in. Check your inbox for the verification link.',
-      });
-    }
-
     const token = signToken(user);
 
     res.json({
