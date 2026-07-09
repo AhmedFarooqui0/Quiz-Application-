@@ -3,7 +3,9 @@ const BASE_URL = "/api";
 
 function authHeader() {
   const token = window.Auth ? window.Auth.getToken() : localStorage.getItem('devquiz_token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
+  return token ? {
+    Authorization: `Bearer ${token}`
+  } : {};
 }
 
 const api = {
@@ -13,7 +15,7 @@ const api = {
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      const e = new Error(err.message || `Request failed: ${res.status}`);
+      const e = new Error(err.message || ` Request failed: ${res.status}`);
       e.status = res.status;
       e.code = err.code;
       throw e;
@@ -31,7 +33,7 @@ const api = {
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      const e = new Error(err.message || Request`failed: ${res.status}`);
+      const e = new Error(err.message || `Request failed: ${res.status}`);
       e.status = res.status;
       e.code = err.code;
       throw e;
@@ -48,19 +50,19 @@ const api = {
   getCategory: (slug) => api.get(`/categories/${slug}`),
   // Questions (requires login — a quiz can only be taken while signed in)
   getQuestions: (categorySlug, limit = 10, difficulty = '') => {
-    let url = `/questions/${categorySlug}?limit=${limit}`;
-    if (difficulty) url += `&difficulty=${difficulty}`;
+    let url = `/questions/${categorySlug}?limit = ${limit}`;
+    if (difficulty) url += ` & difficulty=${difficulty}`;
     return api.get(url, { auth: true });
   },
-  checkAnswer: (questionId, selectedLabel) =>
-    api.post(`/questions/${questionId}/check`, { selectedLabel }, { auth: true }),
+  checkAnswer: (questionId, selectedOptionId) =>
+    api.post(`/questions/${questionId}/check`, { selectedOptionId }, { auth: true }),
   // Scores (submitting requires login; leaderboard is public)
   submitScore: (data) => api.post('/scores', data, { auth: true }),
   getLeaderboard: (categoryId = '') => {
-    const url = categoryId ? `/scores/leaderboard?categoryId=${categoryId}` : '/scores/leaderboard';
+    const url = categoryId ? `/scores/leaderboard ? categoryId = ${categoryId}` : '/scores/leaderboard';
     return api.get(url);
   },
-  getCategoryLeaderboard: (categoryId) => api.get(`/scores/leaderboard/${categoryId}`),
+  getCategoryLeaderboard: (categoryId) => api.get(`/scores/leaderboard / ${categoryId}`),
 };
 
 window.api = api;

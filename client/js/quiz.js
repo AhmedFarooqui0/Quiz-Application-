@@ -126,7 +126,7 @@ function renderQuestion() {
   // Render options
   const grid = document.getElementById('options-grid');
   grid.innerHTML = q.options.map(opt => `
-    <button class="option-btn" data-label="${opt.label}" onclick="selectAnswer('${opt.label}')">
+    <button class="option-btn" data-label="${opt.label}" data-id="${opt._id}" onclick="selectAnswer('${opt.label}', '${opt._id}')">
       <span class="option-label">${opt.label}</span>
       <span class="option-text">${opt.text}</span>
     </button>
@@ -144,7 +144,7 @@ function renderQuestion() {
 }
 
 // Handle answer selection
-async function selectAnswer(label) {
+async function selectAnswer(label, optionId) {
   if (state.answered) return;
   state.answered = true;
   clearInterval(state.timer);
@@ -152,7 +152,7 @@ async function selectAnswer(label) {
   const q = state.questions[state.currentIndex];
 
   try {
-    const result = await api.checkAnswer(q._id, label);
+    const result = await api.checkAnswer(q._id, optionId);
     const isCorrect = result.isCorrect;
 
     if (isCorrect) {
@@ -164,7 +164,7 @@ async function selectAnswer(label) {
       question: q,
       userAnswer: label,
       correct: isCorrect,
-      correctLabel: result.correctLabel,
+      correctOptionId: result.correctOptionId,
       explanation: result.explanation,
       reference: result.reference,
     });
@@ -172,9 +172,9 @@ async function selectAnswer(label) {
     document.querySelectorAll('.option-btn').forEach(btn => {
       btn.disabled = true;
       btn.classList.remove('correct', 'wrong');
-      if (btn.dataset.label === result.correctLabel) {
+      if (btn.dataset.id === String(result.correctOptionId)) {
         btn.classList.add('correct');
-      } else if (btn.dataset.label === label && !isCorrect) {
+      } else if (btn.dataset.id === optionId && !isCorrect) {
         btn.classList.add('wrong');
       }
     });
@@ -290,4 +290,5 @@ async function initQuiz() {
   }
 }
 
-initQuiz();
+initQuiz()
+

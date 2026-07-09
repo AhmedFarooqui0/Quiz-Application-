@@ -79,16 +79,19 @@ router.get('/:categorySlug', requireAuth, async (req, res) => {
 // POST /api/questions/:id/check — verify one answer server-side, only after user picks
 router.post('/:id/check', requireAuth, async (req, res) => {
   try {
-    const { selectedLabel } = req.body;
+    const { selectedOptionId } = req.body;
     const question = await Question.findById(req.params.id);
     if (!question) {
       return res.status(404).json({ success: false, message: 'Question not found' });
     }
-    const isCorrect = selectedLabel === question.correct;
+
+    const correctOption = question.options.find(opt => opt.label === question.correct);
+    const isCorrect = String(correctOption._id) === String(selectedOptionId);
+
     res.json({
       success: true,
       isCorrect,
-      correctLabel: question.correct,
+      correctOptionId: correctOption._id,
       explanation: question.explanation,
       reference: question.reference || '',
     });
