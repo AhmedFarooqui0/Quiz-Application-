@@ -38,6 +38,9 @@ function shuffleQuestionOptions(question) {
   questionObj.options = relabeledOptions;
   questionObj.correct = newCorrectLabel;
 
+  delete questionObj.correct;
+  // keep explanation
+
   return questionObj;
 }
 
@@ -73,4 +76,24 @@ router.get('/:categorySlug', requireAuth, async (req, res) => {
   }
 });
 
+// POST /api/questions/:id/check — verify one answer server-side, only after user picks
+router.post('/:id/check', requireAuth, async (req, res) => {
+  try {
+    const { selectedLabel } = req.body;
+    const question = await Question.findById(req.params.id);
+    if (!question) {
+      return res.status(404).json({ success: false, message: 'Question not found' });
+    }
+    const isCorrect = selectedLabel === question.correct;
+    res.json({
+      success: true,
+      isCorrect,
+      correctLabel: question.correct,
+      explanation: question.explanation,
+      reference: question.reference || '',
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 module.exports = router;

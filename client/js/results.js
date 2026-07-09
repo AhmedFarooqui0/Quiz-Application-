@@ -119,8 +119,13 @@ async function submitScore() {
   btn.textContent = 'Submitting...';
 
   try {
-    const { score, total, categoryId } = resultsData;
-    await api.submitScore({ categoryId, score, total });
+    const { categoryId, userAnswers } = resultsData;
+    const answers = userAnswers.map(a => ({
+      questionId: a.questionId,
+      selectedLabel: a.userAnswer,
+    }));
+
+    await api.submitScore({ categoryId, answers, timeTaken: 0 });
 
     document.getElementById('submit-form').innerHTML = `
       <div style="text-align:center;padding:20px;">
@@ -142,7 +147,6 @@ async function submitScore() {
     showToast(err.message || 'Failed to submit score', 'error');
   }
 }
-
 function retryQuiz() {
   if (resultsData) {
     sessionStorage.setItem('quiz_slug', resultsData.categorySlug);

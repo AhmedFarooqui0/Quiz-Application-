@@ -70,20 +70,33 @@ function updateTimerUI() {
 }
 
 // Handle time out — auto-advance as wrong
-function timeOut() {
+async function timeOut() {
   state.answered = true;
   showToast('⏰ Time\'s up!', 'info');
 
   const q = state.questions[state.currentIndex];
-  state.userAnswers.push({ question: q, userAnswer: null, correct: false });
 
-  // Highlight correct answer
-  document.querySelectorAll('.option-btn').forEach(btn => {
-    btn.disabled = true;
-    if (btn.dataset.label === q.correct) btn.classList.add('correct');
-  });
+  try {
+    const result = await api.checkAnswer(q._id, null);
+    state.userAnswers.push({
+      question: q,
+      userAnswer: null,
+      correct: false,
+      correctLabel: result.correctLabel,
+      explanation: result.explanation,
+      reference: result.reference,
+    });
 
-  showExplanation(q);
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.disabled = true;
+      if (btn.dataset.label === result.correctLabel) btn.classList.add('correct');
+    });
+
+    showExplanationFromResult(result);
+  } catch (err) {
+    showToast('Error checking answer', 'error');
+  }
+
   showNavigationButton();
 }
 
@@ -131,43 +144,56 @@ function renderQuestion() {
 }
 
 // Handle answer selection
-function selectAnswer(label) {
+async function selectAnswer(label) {
   if (state.answered) return;
   state.answered = true;
   clearInterval(state.timer);
 
   const q = state.questions[state.currentIndex];
-  const isCorrect = label === q.correct;
 
-  if (isCorrect) {
-    state.score++;
-    document.getElementById('live-score').textContent = state.score;
-  }
+  try {
+    const result = await api.checkAnswer(q._id, label);
+    const isCorrect = result.isCorrect;
 
-  state.userAnswers.push({ question: q, userAnswer: label, correct: isCorrect });
-
-  // Style buttons
-  document.querySelectorAll('.option-btn').forEach(btn => {
-    btn.disabled = true;
-    btn.classList.remove('correct', 'wrong');
-    if (btn.dataset.label === q.correct) {
-      btn.classList.add('correct');
-    } else if (btn.dataset.label === label && !isCorrect) {
-      btn.classList.add('wrong');
+    if (isCorrect) {
+      state.score++;
+      document.getElementById('live-score').textContent = state.score;
     }
-  });
 
-  showExplanation(q);
-  showNavigationButton();
+    state.userAnswers.push({
+      question: q,
+      userAnswer: label,
+      correct: isCorrect,
+      correctLabel: result.correctLabel,
+      explanation: result.explanation,
+      reference: result.reference,
+    });
+
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      btn.disabled = true;
+      btn.classList.remove('correct', 'wrong');
+      if (btn.dataset.label === result.correctLabel) {
+        btn.classList.add('correct');
+      } else if (btn.dataset.label === label && !isCorrect) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    showExplanationFromResult(result);
+    showNavigationButton();
+  } catch (err) {
+    state.answered = false;
+    showToast('Error checking answer, try again', 'error');
+  }
 }
 
-// Show explanation panel
-function showExplanation(q) {
+// Show explanation panel (from server check result, not q.explanation directly anymore)
+function showExplanationFromResult(result) {
   const panel = document.getElementById('explanation-panel');
-  document.getElementById('explanation-text').textContent = q.explanation;
+  document.getElementById('explanation-text').textContent = result.explanation;
   const refEl = document.getElementById('explanation-ref');
-  if (q.reference) {
-    refEl.textContent = `📚 Reference: ${q.reference}`;
+  if (result.reference) {
+    refEl.textContent = `📚 Reference: ${result.reference}`;
     refEl.style.display = 'block';
   } else {
     refEl.style.display = 'none';
@@ -203,19 +229,19 @@ function finishQuiz() {
     categorySlug: state.category.slug,
     categoryIcon: state.category.icon,
     userAnswers: state.userAnswers.map(a => ({
+      questionId: a.question._id,
       questionText: a.question.question,
       options: a.question.options,
-      correct: a.question.correct,
+      correct: a.correctLabel,
       userAnswer: a.userAnswer,
       wasCorrect: a.correct,
-      explanation: a.question.explanation,
-      reference: a.question.reference || '',
+      explanation: a.explanation,
+      reference: a.reference || '',
     })),
   }));
 
   window.location.href = 'results.html';
 }
-
 // Init quiz
 async function initQuiz() {
   // Login is required to take a quiz.
